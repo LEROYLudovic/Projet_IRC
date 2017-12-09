@@ -6,8 +6,10 @@ import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
@@ -16,8 +18,8 @@ import javafx.scene.text.TextFlow;
 
 public class ClientAuth extends Parent{
    
-    private TextArea textToSendNdc;// Zone de texte permettant de saisir le nom de compte
-    private TextArea textToSendMdp;
+    private TextField textToSendNdc;// Zone de texte permettant de saisir le nom de compte
+    private PasswordField textToSendMdp;
     private Button sendBtn;
     private Button sendCompte;
     private Text textWelcome;
@@ -26,9 +28,9 @@ public class ClientAuth extends Parent{
     private Text textPassword;
     private Text textCompte;
     
-    final Font times30BoldItalicFont = Font.font("Times New Roman", FontWeight.BOLD, FontPosture.ITALIC, 30);
-    final Font times20ItalicFont = Font.font("Times New Roman", FontPosture.ITALIC, 20);
-    final Font times15ItalicFont = Font.font("Times New Roman", FontPosture.ITALIC, 15);
+    final Font times30BoldItalicFont = Font.font("arial", FontWeight.BOLD, FontPosture.ITALIC, 30);
+    final Font times20ItalicFont = Font.font("arial", FontPosture.ITALIC, 20);
+    final Font times15ItalicFont = Font.font("arial", FontPosture.ITALIC, 15);
 
     public ClientAuth(){
         
@@ -56,14 +58,14 @@ public class ClientAuth extends Parent{
         textPassword.setLayoutY(275);
         textPassword.setFont(times15ItalicFont);
        
-        textToSendNdc = new TextArea();
+        textToSendNdc = new TextField();
         textToSendNdc.setLayoutX(150);
         textToSendNdc.setLayoutY(180);
         textToSendNdc.setPrefHeight(10);
         textToSendNdc.setPrefWidth(300);
         textToSendNdc.setEditable(true);
         
-        textToSendMdp = new TextArea();
+        textToSendMdp = new PasswordField();
         textToSendMdp.setLayoutX(150);
         textToSendMdp.setLayoutY(280);
         textToSendMdp.setPrefHeight(10);

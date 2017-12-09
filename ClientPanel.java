@@ -48,6 +48,7 @@ public class ClientPanel extends Parent {
         sendBtn.setPrefWidth(100);
         sendBtn.setPrefHeight(25);
         sendBtn.setVisible(true);
+        sendBtn.setDefaultButton(true);
         sendBtn.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
@@ -70,6 +71,7 @@ public class ClientPanel extends Parent {
         clearBtn.setPrefHeight(25);
         clearBtn.setPrefWidth(100);
         clearBtn.setVisible(true);
+        clearBtn.setCancelButton(true);
         clearBtn.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
