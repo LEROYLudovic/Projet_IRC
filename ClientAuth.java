@@ -3,25 +3,39 @@ package IHM;
 import java.awt.Graphics;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.Reflection;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.stage.Stage;
 
 public class ClientAuth extends Parent{
-   
+
     private TextField textToSendNdc;// Zone de texte permettant de saisir le nom de compte
     private PasswordField textToSendMdp;
     private Button sendBtn;
     private Button sendCompte;
+    private ProgressIndicator  valid;
     private Text textWelcome;
     private Text textConnection;
     private Text textPseudo;
@@ -31,14 +45,18 @@ public class ClientAuth extends Parent{
     final Font times30BoldItalicFont = Font.font("arial", FontWeight.BOLD, FontPosture.ITALIC, 30);
     final Font times20ItalicFont = Font.font("arial", FontPosture.ITALIC, 20);
     final Font times15ItalicFont = Font.font("arial", FontPosture.ITALIC, 15);
-
-    public ClientAuth(){
-        
+   
+    public ClientAuth(){    
+  
         textWelcome = new Text();
         textWelcome.setText("Bienvenue sur l'IRC");
-        textWelcome.setLayoutX(175);
+        textWelcome.setLayoutX(162);
         textWelcome.setLayoutY(80);
         textWelcome.setFont(times30BoldItalicFont);
+        
+        Reflection refl = new Reflection();
+        refl.setFraction(0.5f);
+        textWelcome.setEffect(refl);
          
         textConnection = new Text();
         textConnection.setText("Connectez-vous :");
@@ -49,58 +67,166 @@ public class ClientAuth extends Parent{
         textPseudo = new Text();
         textPseudo.setText("Nom de compte :");
         textPseudo.setLayoutX(150);
-        textPseudo.setLayoutY(175);
+        textPseudo.setLayoutY(185);
         textPseudo.setFont(times15ItalicFont);
 
         textPassword= new Text();
         textPassword.setText("Mot de passe :");
         textPassword.setLayoutX(150);
-        textPassword.setLayoutY(275);
+        textPassword.setLayoutY(250);
         textPassword.setFont(times15ItalicFont);
        
         textToSendNdc = new TextField();
         textToSendNdc.setLayoutX(150);
-        textToSendNdc.setLayoutY(180);
+        textToSendNdc.setLayoutY(190);
         textToSendNdc.setPrefHeight(10);
         textToSendNdc.setPrefWidth(300);
         textToSendNdc.setEditable(true);
+        textToSendNdc.clear(); 
+        textToSendNdc.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent ke) {
+            System.out.println("Key Pressed for pseudo : " + ke.getText());
+        }
+        });
+        textToSendNdc.setOnKeyReleased(new EventHandler<KeyEvent>() {
+        public void handle(KeyEvent ke) {
+            System.out.println("Key Released for pseudo: " + ke.getText());
+        }
+        });
+        textToSendNdc.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+            System.out.println("Mouse entered");
+        }
+        });
+
+        textToSendNdc.setOnMouseExited(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+            System.out.println("Mouse exited");
+        }
+        });
         
         textToSendMdp = new PasswordField();
         textToSendMdp.setLayoutX(150);
-        textToSendMdp.setLayoutY(280);
+        textToSendMdp.setLayoutY(255);
         textToSendMdp.setPrefHeight(10);
         textToSendMdp.setPrefWidth(300);
         textToSendMdp.setEditable(true);
-    
+        textToSendMdp.clear();
+        textToSendMdp.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        @Override
+        public void handle(KeyEvent ke) {
+            System.out.println("Key Pressed for first password: " + ke.getText());          
+        }
+        });
+        textToSendMdp.setOnKeyReleased(new EventHandler<KeyEvent>() {
+        public void handle(KeyEvent ke) {
+            System.out.println("Key Released for first password: " + ke.getText());
+        }
+        });
+        
+        textToSendMdp.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+            System.out.println("Mouse entered");
+        }
+        });
+
+        textToSendMdp.setOnMouseExited(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+            System.out.println("Mouse exited");
+        }
+        });
+        
         sendBtn= new Button();
         sendBtn.setText("Connexion");
         sendBtn.setLayoutX(250);
-        sendBtn.setLayoutY(340);
+        sendBtn.setLayoutY(330);
         sendBtn.setPrefWidth(100);
-        sendBtn.setPrefHeight(35);
+        sendBtn.setPrefHeight(50);
         sendBtn.setVisible(true);
-       /* sendBtn.setOnAction(new EventHandler<ActionEvent>(){
+        sendBtn.setTextFill(Color.BLACK);
+        sendBtn.setDefaultButton(true);
+           
+        valid = new ProgressIndicator();
+        valid.setLayoutX(360);
+        valid.setLayoutY(330);
+        valid.setVisible(false);
+        sendBtn.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
-                Label label = new Label();
-                if (textToSend.getText().isEmpty() ){
-                } else { 
-                    label.setText(textToSend.getText()+"\n");
-                    label.setPrefWidth(400);
+                valid.setVisible(true);
+            }   
+        });
+        
+        sendBtn.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+        System.out.println("Mouse entered");
+        sendBtn.setCursor(Cursor.HAND);
+        }
+        });
 
-                    receivedText.getChildren().add(label);
-                    textToSend.setText("");
-                  }                         
-            
-        });*/
-       
-          sendCompte= new Button();
+        sendBtn.setOnMouseExited(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+        System.out.println("Mouse exited");
+        sendBtn.setCursor(Cursor.DEFAULT);
+
+        }
+        });
+
+        sendBtn.setOnMousePressed(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+        System.out.println("Mouse pressed");
+        valid.setVisible(true);
+        sendBtn.setCursor(Cursor.WAIT);
+        }
+        });
+        
+        sendCompte= new Button();
         sendCompte.setText("Créer un compte");
         sendCompte.setLayoutX(230);
         sendCompte.setLayoutY(430);
         sendCompte.setPrefWidth(140);
-        sendCompte.setPrefHeight(35);
+        sendCompte.setPrefHeight(40);
         sendCompte.setVisible(true);
+        sendCompte.setTextFill(Color.MIDNIGHTBLUE);
+        sendCompte.setDefaultButton(false);
+
+        sendCompte.setOnAction(new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+               
+ 
+              //si le bouton créer un compte est appuyé
+              ClientAccount cac = new ClientAccount();
+        
+             }       
+        });  
+        sendCompte.setOnMouseEntered(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+        System.out.println("Mouse entered");
+        sendCompte.setCursor(Cursor.HAND);
+        }
+        });
+
+        sendCompte.setOnMouseExited(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+        System.out.println("Mouse exited");
+        sendCompte.setCursor(Cursor.DEFAULT);
+
+        }
+        });
+
+        sendCompte.setOnMousePressed(new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent me) {
+        System.out.println("Mouse pressed");
+        valid.setVisible(true);
+        sendCompte.setCursor(Cursor.WAIT);
+        }
+        });
+       
+           
+    
+
        /* sendBtn.setOnAction(new EventHandler<ActionEvent>(){
             @Override
             public void handle(ActionEvent event) {
@@ -121,6 +247,18 @@ public class ClientAuth extends Parent{
         textCompte.setLayoutX(290);
         textCompte.setLayoutY(420);
         textCompte.setFont(times15ItalicFont);
+              
+        Line lineup = new Line(150, 150,   450,   150);
+        lineup.setStroke(Color.GREY);
+        lineup.setStrokeWidth(1);
+
+        Line linemid = new Line(150, 310,   450,   310);
+        linemid.setStroke(Color.GREY);
+        linemid.setStrokeWidth(1);
+        
+        Line linelow = new Line(230, 400,   370,   400);
+        linelow.setStroke(Color.GREY);
+        linelow.setStrokeWidth(1);
 
         this.getChildren().add(textToSendNdc);
         this.getChildren().add(textToSendMdp);
@@ -131,5 +269,10 @@ public class ClientAuth extends Parent{
         this.getChildren().add(sendBtn);
         this.getChildren().add(textCompte);
         this.getChildren().add(sendCompte);
-    }  
+        this.getChildren().add(valid);
+        this.getChildren().add(lineup);
+        this.getChildren().add(linemid);
+        this.getChildren().add(linelow);
+    }   
 }
+

@@ -104,7 +104,7 @@ public class ClientPanel extends Parent {
         textMembers.setText("Connectés :");
         textMembers.setLayoutX(470);
         textMembers.setLayoutY(45);
-        
+
         this.getChildren().add(connected);
         this.getChildren().add(textMembers);
         this.getChildren().add(scrollReceivedText);
