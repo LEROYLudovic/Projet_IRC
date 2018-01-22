@@ -5,6 +5,12 @@ import javax.sql.rowset.JdbcRowSet;
 import java.sql.SQLException;
 
 
+/**
+ *  Classe UserAccountBean
+ *
+ * @author ludo
+ * @version 1.0
+ */
 public class UserAccountBean {
 
 //jar du connector mysql a connecter sur le site de mysql et à importer le package dans le classpath
@@ -41,8 +47,8 @@ public class UserAccountBean {
 //deplacement a la ligne d'insertion
             jdbcRowSet.moveToInsertRow();
             jdbcRowSet.updateInt("id", user.getId());
-            jdbcRowSet.updateString("ndc", user.getNdc());
-            jdbcRowSet.updateString("mdp", user.getMdp());
+            jdbcRowSet.updateString("ndc", user.getLogin());
+            jdbcRowSet.updateString("mdp", user.getPassword());
 //inserer l'enregistrement
             jdbcRowSet.insertRow();
 //se deplacer sur l'enregistrement inserer
@@ -62,8 +68,8 @@ public class UserAccountBean {
 //Mise à jours d'un enregistrement
     public UserAccount update(UserAccount user) {
         try {
-            jdbcRowSet.updateString("ndc", user.getNdc());
-            jdbcRowSet.updateString("mdp", user.getMdp());
+            jdbcRowSet.updateString("ndc", user.getLogin());
+            jdbcRowSet.updateString("mdp", user.getPassword());
             jdbcRowSet.updateRow();
             jdbcRowSet.moveToCurrentRow();
         } catch (SQLException e) {
@@ -98,8 +104,8 @@ public class UserAccountBean {
         try {
             jdbcRowSet.first();
             user.setId(jdbcRowSet.getInt("id"));
-            user.setNdc(jdbcRowSet.getString("nom de compte"));
-            user.setMdp(jdbcRowSet.getString("mot de passe"));
+            user.setLogin(jdbcRowSet.getString("nom de compte"));
+            user.setPassword(jdbcRowSet.getString("mot de passe"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -112,8 +118,8 @@ public class UserAccountBean {
         try {
             jdbcRowSet.last();
             user.setId(jdbcRowSet.getInt("id"));
-            user.setNdc(jdbcRowSet.getString("nom de compte"));
-            user.setMdp(jdbcRowSet.getString("mot de passe"));
+            user.setLogin(jdbcRowSet.getString("nom de compte"));
+            user.setPassword(jdbcRowSet.getString("mot de passe"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -128,8 +134,8 @@ public class UserAccountBean {
                 jdbcRowSet.previous();
             }
             user.setId(jdbcRowSet.getInt("id"));
-            user.setNdc(jdbcRowSet.getString("nom de compte"));
-            user.setMdp(jdbcRowSet.getString("mot de passe"));
+            user.setLogin(jdbcRowSet.getString("nom de compte"));
+            user.setPassword(jdbcRowSet.getString("mot de passe"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -144,8 +150,8 @@ public class UserAccountBean {
                 jdbcRowSet.next();
             }
             user.setId(jdbcRowSet.getInt("id"));
-            user.setNdc(jdbcRowSet.getString("nom de compte"));
-            user.setMdp(jdbcRowSet.getString("mot de passe"));
+            user.setLogin(jdbcRowSet.getString("nom de compte"));
+            user.setPassword(jdbcRowSet.getString("mot de passe"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -158,8 +164,8 @@ public class UserAccountBean {
         try {
             jdbcRowSet.moveToCurrentRow();
             user.setId(jdbcRowSet.getInt("id"));
-            user.setNdc(jdbcRowSet.getString("nom de compte"));
-            user.setMdp(jdbcRowSet.getString("mot de passe"));
+            user.setLogin(jdbcRowSet.getString("nom de compte"));
+            user.setPassword(jdbcRowSet.getString("mot de passe"));
         } catch (SQLException e) {
             e.printStackTrace();
         }

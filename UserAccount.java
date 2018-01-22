@@ -1,29 +1,35 @@
 package IHM;
 
+/**
+ *  Classe UserAccount
+ *
+ * @author ludo
+ * @version 1.0
+ */
 public class UserAccount {
 
     private int id;
-    private String ndc;
-    private String mdp;
+    private String login;
+    private String password;
 //Constructeurs Getters et Setters.
 
     int getId() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    String getNdc() {
+    String getLogin() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    String getMdp() {
+    String getPassword() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    void setNdc(String string) {
+    void setLogin(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    void setMdp(String string) {
+    void setPassword(String string) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

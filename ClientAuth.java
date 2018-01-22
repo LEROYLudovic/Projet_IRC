@@ -33,6 +33,12 @@ import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 
+/**
+ *  Classe gestion de l'IHM de connexion
+ * 
+ * @author ludo
+ * @version 1.0
+ */
 public class ClientAuth extends MyGroups {
 
     private TextField textToSendNdc;// Zone de texte permettant de saisir le nom de compte
@@ -99,7 +105,7 @@ public class ClientAuth extends MyGroups {
         textToSendNdc.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
-                System.out.println("Key Pressed for pseudo : " + ke.getText()); //si l'utilisateur rentre autre chose que des caracteres voulus, ecrire "vous avez rentrer un mauvais caractere"
+                System.out.println("Key Pressed for pseudo : " + ke.getText()); 
             }
         });
         textToSendNdc.setOnKeyReleased(new EventHandler<KeyEvent>() {
@@ -217,13 +223,7 @@ public class ClientAuth extends MyGroups {
         sendCompte.setTextFill(Color.MIDNIGHTBLUE);
         sendCompte.setDefaultButton(false);
 
-        sendCompte.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-
-                //si le bouton créer un compte est appuyé
-            }
-        });
+        
         sendCompte.setOnMouseEntered(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent me) {
                 System.out.println("Mouse entered");

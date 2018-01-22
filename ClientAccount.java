@@ -48,6 +48,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.scene.image.Image;
 import static javafx.scene.paint.Color.*;
 
+/**
+ * Classe gestion de l'IHM de la création d'un compte
+ * 
+ * @author ludo
+ * @version 1.0
+ */
 public class ClientAccount extends MyGroups { //les 3 IHM héritent de MyGroups
 
     private TextField idTextField;
@@ -74,7 +80,13 @@ public class ClientAccount extends MyGroups { //les 3 IHM héritent de MyGroups
     final Font times20ItalicFont = Font.font("arial", FontPosture.ITALIC, 20);
     final Font times15ItalicFont = Font.font("arial", FontPosture.ITALIC, 15);
 
-    public ClientAccount(Group acc, MainIHM mainIHM) throws ClassNotFoundException { //mainIHM est un attribut commun au 3 groupes 
+    /**
+    * mainIHM est un attribut commun au 3 groupes 
+    * 
+    * @params  acc  mainIHM
+    *           account de type Group, mainIHM de type MainIHM
+    */
+    public ClientAccount(Group acc, MainIHM mainIHM) throws ClassNotFoundException { //
         super(mainIHM);
         // this.userBean = new UserAccountBean();
         textWelcome = new Text();
@@ -208,7 +220,7 @@ final TextFormatter<Integer> integerOnlyFormatter = new TextFormatter(integerOnl
         textToSendMdpAnnot = new TextArea("Votre mot de passe\n"
                 + "doit au minimum\n" + "contenir 6 caractères\n" + "et ne pas inclure de\n"
                 + "caractères spéciaux :\n"
-                + "( , ; : ! ? . / % { * & \" ..."); //interdit , ; : ! ? . / § ù % µ * £ $ ¤ + = } ) ° ] @ ^ \ ` | ( [ ' { " # ~ & < >
+                + "( , ; : ! ? . / % { * & \" ..."); //tous les caractères spéciaux doivent être interdit
         textToSendMdpAnnot.setLayoutX(5);
         textToSendMdpAnnot.setLayoutY(220);
         textToSendMdpAnnot.setPrefHeight(110);
@@ -474,41 +486,37 @@ final TextFormatter<Integer> integerOnlyFormatter = new TextFormatter(integerOnl
         //Chargement des information du premier enregistrement         
 
     }
-//les TextField sont placé sur une Grille 2*2
 
-    private Pane initFields() {
-        GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER_LEFT);
-        grid.setPadding(new Insets(10, 10, 10, 10));
-        grid.setHgap(20);
-        grid.setVgap(2);
-        grid.add(new Label("ID"), 1, 0);
-        idTextField.setEditable(false);
-        grid.add(idTextField, 2, 0);
-        grid.add(new Label("Nom"), 1, 1);
-        grid.add(textToSendNdc, 2, 1);
-        grid.add(new Label("Prenom"), 1, 2);
-
-        return grid;
-    }
-
-//Chargement des informations des TextFields dans l'objet UserAccount
+    
+    /**
+     * Chargement des informations des TextFields dans l'objet UserAccount
+     *
+     * @return L'utilisateur
+     *            
+     */
     private UserAccount getFieldData() {
         UserAccount user = new UserAccount();
         user.setId(Integer.parseInt(idTextField.getText()));
-        user.setNdc(textToSendNdc.getText());
-        user.setMdp(textToSendMdp.getText());
+        user.setLogin(textToSendNdc.getText());
+        user.setPassword(textToSendMdp.getText());
         return user;
     }
-
-//chargement de l'objet UserAccount dans les TextFiels
+    
+    /**
+     * chargement de l'objet UserAccount dans les TextFiels
+     *
+     */
     private void setFieldData(UserAccount user) {
         idTextField.setText(String.valueOf(user.getId()));
-        textToSendNdc.setText(user.getNdc());
-        textToSendMdp.setText(user.getMdp());
+        textToSendNdc.setText(user.getLogin());
+        textToSendMdp.setText(user.getPassword());
     }
-
-//Test si un des fields est vide
+    
+    /**
+     * Test si un des fields est vide
+     *
+     * @return Vrai ou faux
+     */
     private boolean isEmptyFieldsData() {
         if (textToSendNdc.getText().equals("") || textToSendMdp.getText().equals("")) {
             return true;
@@ -517,7 +525,10 @@ final TextFormatter<Integer> integerOnlyFormatter = new TextFormatter(integerOnl
         }
     }
 
-//Gestion des evenement etends la class EventHandler et redefinie la methode handler
+     /**
+     * Gestion des evenement etends la class EventHandler et redefinie la methode handler
+     *
+     */
     private class ButtonHandler implements EventHandler<ActionEvent> {
 
         @Override
@@ -534,8 +545,8 @@ final TextFormatter<Integer> integerOnlyFormatter = new TextFormatter(integerOnl
                 sendBtn.setText("Création du compte");
             } else if (event.getSource().equals(sendBtn) && sendBtn.getText().equals("Création du compte")) {
                 user.setId(new Random().nextInt(Integer.MAX_VALUE) + 1);
-                user.setNdc("");
-                user.setMdp("");
+                user.setLogin("");
+                user.setPassword("");
                 setFieldData(user);
             }
 

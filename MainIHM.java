@@ -1,5 +1,7 @@
 package IHM;
 
+import client.*;
+import java.io.IOException;
 import java.util.Timer;
 import javafx.application.Application;
 import javafx.scene.Cursor;
@@ -16,6 +18,12 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ *  Classe principale MainIHM
+ * 
+ * @author ludo
+ * @version 1.0
+ */
 public class MainIHM extends Application {
 
     private Scene sceneAuth;
@@ -25,8 +33,10 @@ public class MainIHM extends Application {
     private Stage stage;
 
     @Override
-    public void start(Stage stage) throws ClassNotFoundException {
+    public void start(Stage stage) throws ClassNotFoundException, IOException {
         this.stage = stage;
+        
+        
         Group authGroup = new Group(); //initialisation des groupes
         initSceneAuth(authGroup);
 
@@ -35,20 +45,33 @@ public class MainIHM extends Application {
  
         Group panelGroup = new Group();
         initScenePanel(panelGroup);
+        
 
         stage.setTitle("Messagerie");
         stage.getIcons().add(new Image("file:tchat-bulle.png")); //icone
-
+        
+        stage.setOnCloseRequest(event->
+                System.exit(0)
+        );
+        
         stage.setScene(sceneAuth); //fenetre d'authentification 
         stage.show();
     }
-
+    
+    /**
+     *  Méthode main
+     * 
+     */
     public static void main(String[] args) {
         Application.launch(MainIHM.class, args);
      //   new Thread( new ThreadIncTimer()).start();
 
     }
-
+    
+    /**
+     *  initialisation de la scène de connexion
+     * 
+     */
     private void initSceneAuth(Group authGroup) {
         sceneAuth = new Scene(authGroup, 600, 500); //initialisation de la scene
         stage.setResizable(false);//empecher d'agrandir ou de réduire la fenêtre ainsi que de la resize comme on le veut
@@ -68,7 +91,11 @@ public class MainIHM extends Application {
         ClientAuth ca = new ClientAuth(authGroup, this);//création d'un objet
         authGroup.getChildren().add(ca);//appel
     }
-
+    
+    /**
+     *  initialisation de la scène de création de compte
+     * 
+     */
     private void initSceneAccount(Group accountGroup) throws ClassNotFoundException {
         sceneAccount = new Scene(accountGroup, 600, 500);
         LinearGradient linearGrad = new LinearGradient(
@@ -86,11 +113,19 @@ public class MainIHM extends Application {
         ClientAccount cac = new ClientAccount(accountGroup, this);
         accountGroup.getChildren().add(cac);
     }
-
-    private void initScenePanel(Group panelGroup) {
+    
+    /**
+     *  initialisation de la scène de chat
+     * 
+     */
+    private void initScenePanel(Group panelGroup) throws IOException {
         scenePanel = new Scene(panelGroup, 600, 500);
 
         ClientPanel cp = new ClientPanel(panelGroup, this);
+        String address = "127.0.0.1"; //args[0]
+        Integer port = new Integer(1080); //args[1]
+        Client c = new Client(address, port, cp);
+        cp.setClient(c);
         panelGroup.getChildren().add(cp);
 
         scenePanel.setFill(Color.WHITE); //force le fond blanc pour empecher le degradé
@@ -113,5 +148,10 @@ public class MainIHM extends Application {
         System.out.println("Changement de fenêtre, ClientAccount --> ClientAuth");
         stage.setScene(sceneAuth);        
         stage.show();
-    }         
+    }  
+     private static void printUsage() {
+        System.out.println("java client.Client <address> <port>");
+        System.out.println("\t<address>: server's ip address");
+        System.out.println("\t<port>: server's port");
+    }
 }

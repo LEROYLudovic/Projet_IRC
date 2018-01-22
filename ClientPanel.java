@@ -1,5 +1,7 @@
 package IHM;
 
+import client.*;
+import server.*;
 import static com.sun.java.accessibility.util.AWTEventMonitor.addWindowListener;
 import java.awt.event.WindowAdapter;
 import java.util.Timer;
@@ -26,9 +28,16 @@ import java.time.temporal.ChronoUnit;
 import java.util.concurrent.TimeUnit;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.application.Platform;
 import static javafx.scene.Cursor.cursor;
 import javafx.stage.WindowEvent;
 
+/**
+ *  Classe gestion de l'IHM du chat
+ * 
+ * @author ludo
+ * @version 1.0
+ */
 public class ClientPanel extends MyGroups {
 
     private TextArea textToSend;// Zone de texte permettant de saisir du texte
@@ -44,6 +53,7 @@ public class ClientPanel extends MyGroups {
     private Button DeconnexionBtn; //bouton déconnexion
     private DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
     private DateFormat ft2 = new SimpleDateFormat("HH:mm");
+    private Client client;
 
     public ClientPanel(Group pan, MainIHM mainIHM) {
         super(mainIHM);
@@ -140,6 +150,7 @@ public class ClientPanel extends MyGroups {
                             sendBtn.setCursor(Cursor.HAND);
                             this.stop();
                         }
+                        
                     }
                 }.start();
                  
@@ -149,13 +160,17 @@ public class ClientPanel extends MyGroups {
                 } else {
                     
                    labelTime.setText("[" + ft2.format(currentDate) + "] : " +  textToSend.getText()); 
-                   
+                   msg.setText("\nVotre Message >> "+textToSend.getText());
                    msg.setPrefWidth(400);
+                   
+                   System.out.println("on écrit dans " + this);
 
-                    receivedText.getChildren().add(labelTime);
+                   client.sendMessage(textToSend.getText());
+                    //receivedText.getChildren().add(labelTime);
                     receivedText.getChildren().add(msg);
 
                     textToSend.setText("");
+                    System.out.flush();
                 }
             }
         });
@@ -310,5 +325,39 @@ public class ClientPanel extends MyGroups {
         this.getChildren().add(clearBtnChat);
         this.getChildren().add(DeconnexionBtn);
         this.getChildren().add(dateBtn);
-    }    
+        
+    }
+    
+    public void setClient(Client c1) {
+
+        this.client = c1;
+    }
+
+    public void setReceivedText(String m) {
+        System.out.println("dans receivedTest : on écrit dans " + this);
+
+        Platform.runLater(new Runnable() {
+
+            @Override
+            public void run() {
+                Label l = new Label();
+                l.setText("\nMessage reçu : " + m);
+                l.setPrefWidth(400);
+                receivedText.getChildren().add(l);
+            }
+        });
+
+    }
+
+    public void setConnected(Server s){
+        Platform.runLater(new Runnable() {
+
+            @Override
+            public void run() {
+                
+                
+            }
+        });
+    }
+    
 }
